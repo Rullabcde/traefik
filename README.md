@@ -86,4 +86,5 @@ Now you're ready to start all the services.
 docker-compose up -d
 ```
 
-Your WordPress site will be available at `https://yourdomain.com`, and phpMyAdmin will be at `https://pma.yourdomain.com`. Traefik will automatically obtain and renew the SSL certificates for you.
+Your WordPress site will be available at `https://domain.anda`, and phpMyAdmin will be at `https://domain.anda/phpmyadmin`. Traefik will automatically obtain and renew the SSL certificates for you.
+Additionally, the Traefik dashboard will be available at `http://domain.anda:8080`.
