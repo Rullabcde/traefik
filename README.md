@@ -40,13 +40,24 @@ chmod 600 traefik/acme.json
 
 Open the `docker-compose.yml` file and replace `domain.anda` with your actual domain name in the labels for the `wordpress` and `phpmyadmin` services.
 
-### 4. Set Your Email in `traefik.yml`
+### 4. Set Your Email and Domain in `traefik.yml`
 
-Open `traefik/traefik.yml` and change the email address to your own. This is important for Let's Encrypt notifications.
+Open `traefik/traefik.yml` and change the email address, domain, and hashed user and password to your own.
 
 ```yaml
 # traefik/traefik.yml
 ---
+http:
+  routers:
+    dashboard:
+      rule: "Host(`traefik.domain.anda`)"
+      service: api@internal
+
+dashboard-auth:
+  basicAuth:
+    users:
+      - "user:passwordhash"
+
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -87,4 +98,4 @@ docker-compose up -d
 ```
 
 Your WordPress site will be available at `https://domain.anda`, and phpMyAdmin will be at `https://domain.anda/phpmyadmin`. Traefik will automatically obtain and renew the SSL certificates for you.
-Additionally, the Traefik dashboard will be available at `http://domain.anda:8080`.
+Additionally, the Traefik dashboard will be available at `https://traefik.domain.anda`.
