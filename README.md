@@ -42,17 +42,11 @@ Open the `docker-compose.yml` file and replace `domain.anda` with your actual do
 
 ### 4. Set Your Email and Domain in `traefik.yml`
 
-Open `traefik/traefik.yml` and change the email address, domain, and hashed user and password to your own.
+Open `traefik/traefik.yml` and change the email address, hashed user and password to your own.
 
 ```yaml
 # traefik/traefik.yml
 ---
-http:
-  routers:
-    dashboard:
-      rule: "Host(`traefik.domain.anda`)"
-      service: api@internal
-
 dashboard-auth:
   basicAuth:
     users:

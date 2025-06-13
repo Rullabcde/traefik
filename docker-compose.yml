@@ -7,17 +7,19 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - "./traefik/traefik.yml:/traefik.yml:ro"
-      - "./traefik/dynamic.yml:/dynamic.yml:ro"
       - "./traefik/acme.json:/acme.json"
     networks:
       - wp_network
-    environment:
-      - TRAEFIK_API_DASHBOARD=true
-      - TRAEFIK_API_INSECURE=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.domain.anda`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth@file,secure-headers@file"
 
   mysql:
     image: mysql:8.0
@@ -53,6 +55,7 @@ services:
       - "traefik.http.routers.wordpress.rule=Host(`domain.anda`)"
       - "traefik.http.routers.wordpress.entrypoints=websecure"
       - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.wordpress.middlewares=secure-headers@file"
       - "traefik.http.services.wordpress.loadbalancer.server.port=80"
 
   phpmyadmin:
@@ -73,8 +76,9 @@ services:
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=letsencrypt"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
-      - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-stripprefix"
+      - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-stripprefix@docker,secure-headers@file"
       - "traefik.http.middlewares.phpmyadmin-stripprefix.stripprefix.prefixes=/phpmyadmin"
 
 networks:
   wp_network:
+    external: true

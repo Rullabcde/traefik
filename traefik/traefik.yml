@@ -26,18 +26,11 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: wp_network
+  file:
+    filename: /traefik.yml
+    watch: true
 
 http:
-  routers:
-    dashboard:
-      rule: "Host(`traefik.domain.anda`)"
-      service: api@internal
-      entryPoints:
-      - websecure
-      middlewares:
-      - secure-headers
-      - dashboard-auth
-
   middlewares:
     secure-headers:
       headers:
@@ -49,7 +42,6 @@ http:
         stsIncludeSubdomains: true
         stsSeconds: 31536000
         stsPreload: true
-
     dashboard-auth:
       basicAuth:
         users:
