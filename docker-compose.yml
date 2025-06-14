@@ -76,9 +76,7 @@ services:
       - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
       - "traefik.http.routers.phpmyadmin.tls.certresolver=letsencrypt"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
-      - "traefik.http.routers.phpmyadmin.middlewares=phpmyadmin-stripprefix@docker,secure-headers@file"
-      - "traefik.http.middlewares.phpmyadmin-stripprefix.stripprefix.prefixes=/phpmyadmin"
+      - "traefik.http.routers.phpmyadmin.middlewares=redirect-phpmyadmin@file,secure-headers@file,phpmyadmin-stripprefix@file"
 
 networks:
   wp_network:
-    external: true

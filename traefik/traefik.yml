@@ -47,6 +47,18 @@ http:
         users:
         - "user:passwordhash"
 
+    phpmyadmin-stripprefix:
+      stripPrefix:
+        prefixes:
+        - "/phpmyadmin"
+        forceSlash: false
+
+    redirect-phpmyadmin:
+      redirectRegex:
+        regex: "^https?://(.*)/phpmyadmin$"
+        replacement: "https://$1/phpmyadmin/"
+        permanent: true
+
 tls:
   options:
     default:
