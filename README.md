@@ -4,6 +4,10 @@ This project provides a straightforward way to deploy a WordPress site and phpMy
 
 ---
 
+## Topology
+
+<img src="Topology.png" alt="Topology" width="500"/>
+
 ## Prerequisites
 
 Before you begin, make sure you have the following installed on your server:
@@ -80,8 +84,6 @@ PMA_HOST=mysql
 PMA_PORT=3306
 PMA_ABSOLUTE_URI=https://domain.anda/phpmyadmin
 ```
-
-**Important:** Use strong, unique passwords for the database credentials.
 
 ### 6. Launch the Application
 
